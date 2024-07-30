@@ -130,4 +130,11 @@ class CategoryController extends Controller
 
             return redirect()->route('categories.editList')->with('success', 'Category updated successfully!');
         }
-    }
+
+        public function destroy($id)
+        {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('categories.editList')->with('success', 'Category deleted successfully');
+        }
+}

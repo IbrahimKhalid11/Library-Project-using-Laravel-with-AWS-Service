@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Display</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .search-input {
-            width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <div class="container mt-5">
         <h1>Category Details</h1>
         <table class="table table-bordered" id="categoryTable">
@@ -61,6 +48,7 @@
             </tbody>
         </table>
     </div>
+
     <script>
         function filterTable() {
             const nameSearch = document.getElementById('nameSearch').value.toLowerCase();
@@ -101,5 +89,4 @@
             }
         }
     </script>
-</body>
-</html>
+@endsection

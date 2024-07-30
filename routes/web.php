@@ -24,6 +24,7 @@ Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy'])
 Route::get('/', [MainController::class, 'index'])->name('main');
 Route::get('/invoice', [MainController::class, 'invoice'])->name('invoice');
 Route::post('/invoice/display', [MainController::class, 'displayInvoice'])->name('displayInvoice');
+Route::get('/invoice/history', [MainController::class, 'invoiceHistory'])->name('invoice.history');
 
 Route::get('/categories/subjects', [MainController::class, 'getSubjects']);
 Route::get('/categories/years', [MainController::class, 'getYears']);

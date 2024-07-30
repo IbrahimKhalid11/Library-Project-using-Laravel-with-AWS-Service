@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -36,8 +37,19 @@ class MainController extends Controller
                 ->decrement('Number', $category['Number']);
         }
 
-        return view('Main.display_invoice', compact('categories', 'totalPrice'));
+        // Save the invoice
+        $invoiceData = [
+            'categories' => json_encode($categories),
+            'total_price' => $totalPrice,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+        $invoiceId = DB::table('invoices')->insertGetId($invoiceData);
+
+        return view('Main.display_invoice', compact('categories', 'totalPrice', 'invoiceId'));
     }
+
+
 
     public function getSubjects(Request $request)
     {
@@ -61,6 +73,13 @@ class MainController extends Controller
         $year = $request->query('year');
         $category = Category::where('Name', $name)->where('Subject', $subject)->where('Year', $year)->where('Number', '>', 0)->first();
         return response()->json($category->Price);
+    }
+
+
+    public function invoiceHistory()
+    {
+        $invoices = DB::table('invoices')->select('id', 'categories', 'total_price', 'created_at')->get();
+        return view('Main.invoice_history', compact('invoices'));
     }
 
 

@@ -1,49 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Category</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const existingCategorySelect = document.getElementById('existingCategory');
-            const nameField = document.getElementById('nameField');
-            const subjectField = document.getElementById('subjectField');
-            const yearField = document.getElementById('yearField');
-            const numberField = document.getElementById('numberField');
-            const priceField = document.getElementById('priceField');
-            const priceInput = document.getElementById('price');
+@extends('layouts.app')
 
-            existingCategorySelect.addEventListener('change', function () {
-                if (this.value) {
-                    nameField.style.display = 'none';
-                    subjectField.style.display = 'none';
-                    yearField.style.display = 'none';
-                    numberField.style.display = 'block';
-                    priceField.style.display = 'block';
-
-                    // Fetch the price for the selected category
-                    fetch(`/categories/${this.value}/price`)
-                        .then(response => response.json())
-                        .then(data => {
-                            priceInput.value = data.price;
-                        })
-                        .catch(error => console.error('Error fetching price:', error));
-                } else {
-                    nameField.style.display = 'block';
-                    subjectField.style.display = 'block';
-                    yearField.style.display = 'block';
-                    numberField.style.display = 'block';
-                    priceField.style.display = 'block';
-                    priceInput.value = '';
-                }
-            });
-        });
-    </script>
-</head>
-<body>
+@section('content')
     <div class="container mt-5">
         <h1>Create or Update Category</h1>
         @if ($errors->any())
@@ -101,5 +58,43 @@
         </form>
         <a href="{{ route('main') }}" class="btn btn-secondary mt-3">Back to Main</a>
     </div>
-</body>
-</html>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const existingCategorySelect = document.getElementById('existingCategory');
+            const nameField = document.getElementById('nameField');
+            const subjectField = document.getElementById('subjectField');
+            const yearField = document.getElementById('yearField');
+            const numberField = document.getElementById('numberField');
+            const priceField = document.getElementById('priceField');
+            const priceInput = document.getElementById('price');
+
+            existingCategorySelect.addEventListener('change', function () {
+                if (this.value) {
+                    nameField.style.display = 'none';
+                    subjectField.style.display = 'none';
+                    yearField.style.display = 'none';
+                    numberField.style.display = 'block';
+                    priceField.style.display = 'block';
+
+                    // Fetch the price for the selected category
+                    fetch(`/categories/${this.value}/price`)
+                        .then(response => response.json())
+                        .then(data => {
+                            priceInput.value = data.price;
+                        })
+                        .catch(error => console.error('Error fetching price:', error));
+                } else {
+                    nameField.style.display = 'block';
+                    subjectField.style.display = 'block';
+                    yearField.style.display = 'block';
+                    numberField.style.display = 'block';
+                    priceField.style.display = 'block';
+                    priceInput.value = '';
+                }
+            });
+        });
+    </script>
+@endsection

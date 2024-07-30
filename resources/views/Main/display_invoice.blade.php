@@ -9,6 +9,9 @@
 <body>
     <div class="container mt-5">
         <h1>Category Details</h1>
+        <div class="alert alert-success">
+            Invoice saved successfully! Invoice ID: {{ $invoiceId }}
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -22,15 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $totalPrice = 0;
-                @endphp
                 @foreach ($categories as $category)
-                    @php
-                        $discount = $category['Discount'] / 100;
-                        $newPrice = $category['Price'] * $category['Number'] * (1 - $discount);
-                        $totalPrice += $newPrice;
-                    @endphp
                     <tr>
                         <td>{{ $category['Name'] }}</td>
                         <td>{{ $category['Year'] }}</td>
@@ -38,13 +33,13 @@
                         <td>{{ $category['Number'] }}</td>
                         <td>${{ $category['Price'] }}</td>
                         <td>{{ $category['Discount'] }}%</td>
-                        <td>${{ number_format($newPrice, 2) }}</td>
+                        <td>${{ number_format($category['Price'] * $category['Number'] * (1 - $category['Discount'] / 100), 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
         <h3>Total Price: ${{ number_format($totalPrice, 2) }}</h3>
-        <a href="{{ route('invoice') }}" class="btn btn-secondary">Back to Form</a>
+        <a href="{{ route('invoice') }}" class="btn btn-secondary">Back to Invoice</a>
     </div>
 </body>
 </html>

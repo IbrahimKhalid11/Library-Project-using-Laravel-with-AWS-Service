@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Categories</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .search-input {
-            width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <div class="container mt-5">
         <h1>Manage Categories</h1>
         @if (session('success'))
@@ -44,14 +31,6 @@
                         Price
                         <input type="number" class="search-input" id="priceSearch" onkeyup="filterTable()" placeholder="Search for prices..">
                     </th>
-                    <th>Actions</th>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <th>Year</th>
-                    <th>Subject</th>
-                    <th>Number</th>
-                    <th>Price</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -87,7 +66,7 @@
             const table = document.getElementById('categoryTable');
             const tr = table.getElementsByTagName('tr');
 
-            for (let i = 2; i < tr.length; i++) { // Start from 2 to skip header rows
+            for (let i = 1; i < tr.length; i++) { // Start from 1 to skip header row
                 const tdName = tr[i].getElementsByTagName('td')[0];
                 const tdYear = tr[i].getElementsByTagName('td')[1];
                 const tdSubject = tr[i].getElementsByTagName('td')[2];
@@ -116,5 +95,4 @@
             }
         }
     </script>
-</body>
-</html>
+@endsection
