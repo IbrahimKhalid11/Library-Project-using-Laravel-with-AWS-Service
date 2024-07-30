@@ -23,40 +23,111 @@ class CategoryController extends Controller
         return view('Categories.show')->with('category',$category);
         }
 
-        public function create(){
-            return view("Categories.create");
+        public function create()
+        {
+            // Fetch all categories to populate the dropdown
+            $categories = Category::all();
+            return view('Categories.create', compact('categories'));
         }
-        public function store(Request $request){
-            //  catch
-            // echo $request->name;
-            // validation
+
+        public function store(Request $request)
+        {
+            // Validate the request
             $request->validate([
-
-                "name"=>"required|string|max:50",
-                "subject"=>"required|string",
-                "year"=>"required|string",
-                "price"=>"required|numeric",
-                "number"=>"required|numeric",
+                'number' => 'required|integer|min:1',
+                'price' => 'nullable|integer|min:0',
             ]);
-            // store
-            Category::create([
-                "Name"=>$request->name,
-                "Subject"=>$request->subject,
-                "Year"=>$request->year,
-                "Number"=>$request->number,
-                "Price"=>$request->price,
-            ]);
-            // redirect
-            $categories=Category::all();
-            return view("Categories.all")->with("categories",$categories);
 
-            // or to route
-            // return redirect(url("categories"));
+            if ($request->filled('existingCategory')) {
+                // Update existing category
+                $category = Category::find($request->input('existingCategory'));
+                $category->increment('Number', $request->input('number'));
 
-            // or method
-            // return redirect()->action([CategoryController::class],"all");
+                $categoryDetails = [
+                    'name' => $category->Name,
+                    'subject' => $category->Subject,
+                    'year' => $category->Year,
+                    'price' => $category->Price,
+                    'number' => $request->input('number')
+                ];
 
+                return redirect()->back()->with('success', $categoryDetails);
+            } else {
+                // Validate the request for new category
+                $request->validate([
+                    'name' => 'required|string|max:50',
+                    'subject' => 'required|string|max:50',
+                    'year' => 'required|string|max:50',
+                ]);
 
+                // Check if a category with the same name, subject, and year already exists
+                $existingCategory = Category::where('Name', $request->input('name'))
+                    ->where('Subject', $request->input('subject'))
+                    ->where('Year', $request->input('year'))
+                    ->first();
+
+                if ($existingCategory) {
+                    return redirect()->back()->withErrors(['error' => 'Category with the same name, subject, and year already exists.']);
+                }
+
+                // Create new category
+                $category = Category::create([
+                    'Name' => $request->input('name'),
+                    'Subject' => $request->input('subject'),
+                    'Year' => $request->input('year'),
+                    'Number' => $request->input('number'),
+                    'Price' => $request->input('price'),
+                ]);
+
+                $categoryDetails = [
+                    'name' => $category->Name,
+                    'subject' => $category->Subject,
+                    'year' => $category->Year,
+                    'price' => $category->Price,
+                    'number' => $category->Number
+                ];
+
+                return redirect()->back()->with('success', $categoryDetails);
+            }
         }
 
-}
+        public function getCategoryPrice($id)
+        {
+            $category = Category::find($id);
+            return response()->json(['price' => $category->Price]);
+        }
+
+        public function editList()
+        {
+            $categories = Category::all();
+            return view('Categories.editList', compact('categories'));
+        }
+
+        public function edit($id)
+        {
+            $category = Category::findOrFail($id);
+            return view('Categories.edit', compact('category'));
+        }
+
+        public function update(Request $request, $id)
+        {
+            $request->validate([
+                'name' => 'required|string|max:50',
+                'subject' => 'required|string|max:50',
+                'year' => 'required|string|max:50',
+                'number' => 'required|integer|min:1',
+                'price' => 'required|integer|min:0',
+            ]);
+
+            $category = Category::findOrFail($id);
+            $category->update([
+                'Name' => $request->input('name'),
+                'Subject' => $request->input('subject'),
+                'Year' => $request->input('year'),
+                'Number' => $request->input('number'),
+                'Price' => $request->input('price'),
+            ]);
+
+            return redirect()->route('categories.editList')->with('success', 'Category updated successfully!');
+        }
+    }

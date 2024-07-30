@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Display</title>
+    <title>Manage Categories</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .search-input {
@@ -15,7 +15,12 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Category Details</h1>
+        <h1>Manage Categories</h1>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <table class="table table-bordered" id="categoryTable">
             <thead>
                 <tr>
@@ -39,6 +44,7 @@
                         Price
                         <input type="number" class="search-input" id="priceSearch" onkeyup="filterTable()" placeholder="Search for prices..">
                     </th>
+                    <th>Actions</th>
                 </tr>
                 <tr>
                     <th>Name</th>
@@ -46,6 +52,7 @@
                     <th>Subject</th>
                     <th>Number</th>
                     <th>Price</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +63,14 @@
                         <td>{{ $category['Subject'] }}</td>
                         <td>{{ $category['Number'] }}</td>
                         <td>${{ $category['Price'] }}</td>
+                        <td>
+                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="post" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
