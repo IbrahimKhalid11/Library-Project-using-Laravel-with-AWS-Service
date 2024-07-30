@@ -64,11 +64,5 @@ class MainController extends Controller
     }
 
 
-    public function invoiceHistory()
-    {
-        // Assuming you store invoices in a database table called 'invoices'
-        $invoices = \DB::table('invoices')->get();
-        return view('Main.invoice_history', compact('invoices'));
-    }
 
 }
