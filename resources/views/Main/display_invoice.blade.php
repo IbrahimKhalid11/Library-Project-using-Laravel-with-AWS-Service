@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Display</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Invoice')
+
+@section('content')
     <div class="container mt-5">
         <h1>Category Details</h1>
         <div class="alert alert-success">
@@ -33,13 +29,12 @@
                         <td>{{ $category['Number'] }}</td>
                         <td>${{ $category['Price'] }}</td>
                         <td>{{ $category['Discount'] }}%</td>
-                        <td>${{ number_format($category['Price'] * $category['Number'] * (1 - $category['Discount'] / 100), 2) }}</td>
+                        <td>${{ $category['NewPrice'] }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <h3>Total Price: ${{ number_format($totalPrice, 2) }}</h3>
+        <h3>Total Price: ${{ $totalPrice }}</h3>
         <a href="{{ route('invoice') }}" class="btn btn-secondary">Back to Invoice</a>
     </div>
-</body>
-</html>
+@endsection

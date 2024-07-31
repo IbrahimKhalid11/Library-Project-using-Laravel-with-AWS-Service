@@ -19,22 +19,32 @@ class MainController extends Controller
         $categories = Category::where('Number', '>', 0)->select('Name')->distinct()->get();
         return view('Main.invoice', compact('categories'));
     }
-
     public function displayInvoice(Request $request)
     {
         $categories = $request->input('categories');
         $totalPrice = 0;
+        $errors = [];
 
         foreach ($categories as $category) {
-            $discount = $category['Discount'] / 100;
-            $newPrice = $category['Price'] * $category['Number'] * (1 - $discount);
-            $totalPrice += $newPrice;
-
-            // Update the number in the database
-            Category::where('Name', $category['Name'])
+            $categoryInDB = Category::where('Name', $category['Name'])
                 ->where('Subject', $category['Subject'])
                 ->where('Year', $category['Year'])
-                ->decrement('Number', $category['Number']);
+                ->first();
+
+            if ($categoryInDB->Number >= $category['Number']) {
+                $discount = $category['Discount'] / 100;
+                $newPrice = $category['Price'] * $category['Number'] * (1 - $discount);
+                $totalPrice += $newPrice;
+
+                // Update the number in the database
+                $categoryInDB->decrement('Number', $category['Number']);
+            } else {
+                $errors[] = "Not enough items for " . $category['Name'] . ". Only " . $categoryInDB->Number . " left in stock.";
+            }
+        }
+
+        if (count($errors) > 0) {
+            return back()->withErrors($errors);
         }
 
         // Save the invoice
@@ -48,6 +58,7 @@ class MainController extends Controller
 
         return view('Main.display_invoice', compact('categories', 'totalPrice', 'invoiceId'));
     }
+
 
 
 

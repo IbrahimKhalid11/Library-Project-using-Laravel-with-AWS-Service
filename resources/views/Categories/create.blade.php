@@ -56,7 +56,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        <a href="{{ route('main') }}" class="btn btn-secondary mt-3">Back to Main</a>
+        {{-- <a href="{{ route('main') }}" class="btn btn-secondary mt-3">Back to Main</a> --}}
     </div>
 @endsection
 
