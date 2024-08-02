@@ -8,52 +8,54 @@
                 {{ session('success') }}
             </div>
         @endif
-        <table class="table table-bordered" id="categoryTable">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                        <input type="text" class="search-input" id="nameSearch" onkeyup="filterTable()" placeholder="Search for names..">
-                    </th>
-                    <th>
-                        Year
-                        <input type="text" class="search-input" id="yearSearch" onkeyup="filterTable()" placeholder="Search for years..">
-                    </th>
-                    <th>
-                        Subject
-                        <input type="text" class="search-input" id="subjectSearch" onkeyup="filterTable()" placeholder="Search for subjects..">
-                    </th>
-                    <th>
-                        Number
-                        <input type="number" class="search-input" id="numberSearch" onkeyup="filterTable()" placeholder="Search for numbers..">
-                    </th>
-                    <th>
-                        Price
-                        <input type="number" class="search-input" id="priceSearch" onkeyup="filterTable()" placeholder="Search for prices..">
-                    </th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
+        <div class="table-responsive">
+            <table class="table table-bordered" id="categoryTable">
+                <thead class="thead-dark">
                     <tr>
-                        <td>{{ $category['Name'] }}</td>
-                        <td>{{ $category['Year'] }}</td>
-                        <td>{{ $category['Subject'] }}</td>
-                        <td>{{ $category['Number'] }}</td>
-                        <td>${{ $category['Price'] }}</td>
-                        <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="post" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-                        </td>
+                        <th>
+                            Name
+                            <input type="text" class="search-input" id="nameSearch" onkeyup="filterTable()" placeholder="Search for names..">
+                        </th>
+                        <th>
+                            Year
+                            <input type="text" class="search-input" id="yearSearch" onkeyup="filterTable()" placeholder="Search for years..">
+                        </th>
+                        <th>
+                            Subject
+                            <input type="text" class="search-input" id="subjectSearch" onkeyup="filterTable()" placeholder="Search for subjects..">
+                        </th>
+                        <th>
+                            Number
+                            <input type="number" class="search-input" id="numberSearch" onkeyup="filterTable()" placeholder="Search for numbers..">
+                        </th>
+                        <th>
+                            Price
+                            <input type="number" class="search-input" id="priceSearch" onkeyup="filterTable()" placeholder="Search for prices..">
+                        </th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $category)
+                        <tr>
+                            <td>{{ $category['Name'] }}</td>
+                            <td>{{ $category['Year'] }}</td>
+                            <td>{{ $category['Subject'] }}</td>
+                            <td>{{ $category['Number'] }}</td>
+                            <td>${{ $category['Price'] }}</td>
+                            <td>
+                                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="post" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
     <script>
         function filterTable() {
