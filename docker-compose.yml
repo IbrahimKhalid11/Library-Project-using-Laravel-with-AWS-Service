@@ -10,14 +10,26 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
+<<<<<<< HEAD
     ports:
       - "8000:8000"
+=======
+>>>>>>> origin/main
     networks:
       - app-network
     depends_on:
       - db
+<<<<<<< HEAD
     command: >
       sh -c "composer install &&
+=======
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "composer install &&
+             npm install &&
+             npm run dev &&
+>>>>>>> origin/main
              php artisan migrate --force &&
              php artisan serve --host=0.0.0.0 --port=8000"
 
@@ -28,11 +40,17 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: library_Nor
+<<<<<<< HEAD
+=======
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+>>>>>>> origin/main
     volumes:
       - dbdata:/var/lib/mysql
     networks:
       - app-network
 
+<<<<<<< HEAD
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
@@ -47,6 +65,8 @@ services:
     depends_on:
       - db
 
+=======
+>>>>>>> origin/main
 volumes:
   dbdata:
     driver: local
