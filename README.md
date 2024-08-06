@@ -52,3 +52,6 @@ This project is a web application designed to manage Library and increase produc
    ```
 
 6. Now you can write IP public with a port on any browser.
+
+## License
+[MIT License](LICENSE)
