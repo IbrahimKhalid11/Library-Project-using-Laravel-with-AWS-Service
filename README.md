@@ -1,4 +1,4 @@
-# Project Library By Laraval and Connect By EC2 and RDS
+# Library Project using Laravel, connected with EC2 and RDS
 
 ## Introduction
 This project is a web application designed to manage Library and increase productivity. User can add, update, make invoice, see invoices history, delete Books and Connect by AWS Service
