@@ -31,4 +31,24 @@ This project is a web application designed to manage Library and increase produc
     DB_USERNAME=root
     DB_PASSWORD=root1234
 
-    
+4. Build the Docker Image and Tag then Push the Docker Image to DockerHub
+   - Build the Docker Image:
+   ```bash
+   docker-compose up --build -d
+   ```
+
+    - Tag the Docker Image:
+   ```bash
+   docker tag your-dockerhub-username/library-management-system your-dockerhub-username/library-management-system:your-tag
+   ```
+   - Push the Docker Image to DockerHub
+   ```bash
+    docker push your-dockerhub-username/library-management-system:your-tag
+   ```
+   
+5. After Connect EC2 and RDS, Now Pull Image on EC2
+   ```bash
+       sudo docker pull your-dockerhub-username/library-management-system:your-tag
+   ```
+
+6. Now you can write IP public with a port on any browser.
