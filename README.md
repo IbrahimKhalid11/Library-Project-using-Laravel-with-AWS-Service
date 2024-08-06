@@ -15,5 +15,9 @@ This project is a web application designed to manage Library and increase produc
    https://github.com/IbrahimKhalid11/Library.git
 
 2- Edit on .env
-    ```code
-    print('ik')
+    ```bash
+    APP_NAME=Laravel
+    APP_ENV=local
+    APP_KEY=base64:6YpHWMoi4lv5D4FijWkIzFWMGIpP8SA+N7H38k9rlPE=
+    APP_DEBUG=true
+    APP_URL=http://localhost
