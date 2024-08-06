@@ -8,3 +8,12 @@ This project is a web application designed to manage Library and increase produc
 - Make Invoice
 - Monitoring invoice records
 - EC2 and RDS connection
+
+## Installation
+1. Clone the repository:
+   ```bash
+   https://github.com/IbrahimKhalid11/Library.git
+
+2- Edit on .env
+    ```code
+    print('ik')
